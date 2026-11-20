@@ -138,8 +138,8 @@ def render(
     )
     labels = get_report_labels(report_language)
 
-    # Build template context with pre-computed signal levels (sorted by score)
-    sorted_results = sorted(results, key=lambda x: x.sentiment_score, reverse=True)
+    # Keep STOCK_LIST / portfolio order (do NOT sort by score)
+    sorted_results = list(results)
     sorted_enriched = []
     for r in sorted_results:
         display_action = display_action_fields_for_result(
@@ -216,7 +216,7 @@ def render(
         "report_date": report_date,
         "report_timestamp": report_timestamp,
         "results": sorted_results,
-        "enriched": sorted_enriched,  # Sorted by sentiment_score desc
+        "enriched": sorted_enriched,  # In portfolio order (STOCK_LIST order)
         "summary_only": summary_only,
         "buy_count": buy_count,
         "sell_count": sell_count,
